@@ -20,3 +20,12 @@ export const login = async (req, res) => {
     return errorResponse(res, error.message);
   }
 };
+
+export const profile = async (req, res) => {
+  try {
+    const user = req.user;
+    return successResponse(res, "User profile fetched successfully", user);
+  } catch (error) {
+    return errorResponse(res, error.message);
+  }
+};
