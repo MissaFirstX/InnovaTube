@@ -93,3 +93,20 @@ export const login = async (data) => {
     token,
   };
 };
+
+export const getProfile = async (userId) => {
+  console.log(userId);
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  }); 
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const { password: _, ...userWithoutPassword } = user;
+
+  return userWithoutPassword;
+};
