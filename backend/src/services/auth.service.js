@@ -47,7 +47,8 @@ export const register = async (data) => {
 };
 
 export const login = async (data) => {
-  const { email, username, password } = data;
+  const { username, password } = data;
+  let email = username;
 
   const user = await prisma.user.findFirst({
     where: {
@@ -59,14 +60,14 @@ export const login = async (data) => {
   });
 
   if (!user) {
-    throw new Error("Invalid email or username or password");
+    throw new Error("Invalid credentials");
   }
 
   // Verificar contraseña
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    throw new Error("Invalid email or username or password");
+    throw new Error("Invalid credentials");
   }
 
   if (!process.env.JWT_SECRET) {
@@ -82,7 +83,7 @@ export const login = async (data) => {
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRES_IN || "1d",
-    }
+    },
   );
 
   const { password: _, ...userWithoutPassword } = user;

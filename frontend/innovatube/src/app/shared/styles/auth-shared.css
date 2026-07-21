@@ -1,0 +1,133 @@
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.auth-card {
+  width: min(100%, 440px);
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+}
+
+.auth-card.register-card {
+  width: min(100%, 760px);
+  padding: 28px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.brand-badge {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: white;
+}
+
+.auth-header h2 {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  color: #0f172a;
+}
+
+.auth-header p {
+  margin: 0;
+  color: #64748b;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 12px;
+  height: 46px;
+}
+
+.spinner-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.message {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.message.error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+.message.success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+}
+
+.recaptcha-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.recaptcha-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.retry-btn {
+  min-width: 120px;
+}
+
+.link-row {
+  margin-top: 14px;
+  text-align: center;
+  color: #64748b;
+}
+
+.link-row a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-card {
+    padding: 18px;
+  }
+
+  .auth-card.register-card {
+    padding: 20px;
+  }
+}

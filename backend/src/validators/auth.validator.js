@@ -23,8 +23,8 @@ export const registerValidator = [
         .withMessage("Invalid email"),
 
     body("password")
-        .isLength({ min: 8 })
-        .withMessage("Password must contain at least 8 characters")
+        .isLength({ min: 6 })
+        .withMessage("Password must contain at least 6 characters")
 
 ];
 
