@@ -6,6 +6,7 @@ import morgan from 'morgan';
 
 import authRoutes from "./routes/auth.route.js";
 import videoRoutes from "./routes/video.route.js";
+import favoritesRoutes from "./routes/favorites.route.js";
 import { logger } from "./utils/logger.js";
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(morgan('dev', { stream: { write: (message) => logger.info(message.trim()
 
 app.use("/api/auth", authRoutes);
 app.use("/api/videos", videoRoutes);
+app.use("/api/favorites", favoritesRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Not Found');
