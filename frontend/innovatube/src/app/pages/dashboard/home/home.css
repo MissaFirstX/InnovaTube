@@ -1,0 +1,43 @@
+.home-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 24px;
+
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+main{
+    min-width:0;
+}
+
+aside{
+    position: sticky;
+    top: 90px;
+    align-self: start;
+}
+
+/* Tablet */
+@media (max-width: 992px){
+
+    .home-container{
+        grid-template-columns:1fr;
+    }
+
+    aside{
+        width:100%;
+        position:static;
+    }
+
+}
+
+/* Celular */
+@media (max-width:600px){
+
+    .home-container{
+        padding:16px;
+        gap:16px;
+    }
+
+}

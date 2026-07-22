@@ -1,0 +1,43 @@
+.navbar {
+  background-color: #3697f7;
+  color: white;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.nav-username {
+  margin-right: 16px;
+  font-weight: 550;
+  font-size: 16px;
+}
+
+.nav-button {
+  border-radius: 5px !important;
+}
+
+.mobile-favorites {
+  display: none;
+  color: white;
+}
+
+/* Móvil */
+@media (max-width: 768px) {
+
+  .mobile-favorites {
+    display: inline-flex;
+    margin-right: 8px;
+  }
+
+  .nav-username {
+    display: none;
+  }
+
+  .nav-button {
+    padding: 0 12px;
+    min-width: auto;
+    font-size: 13px;
+  }
+
+}

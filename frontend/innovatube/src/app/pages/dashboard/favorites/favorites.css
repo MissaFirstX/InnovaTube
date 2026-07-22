@@ -1,0 +1,71 @@
+header{
+    margin-bottom:16px;
+}
+
+header input{
+    width:100%;
+    margin-top:10px;
+    padding:10px 14px;
+
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+.favorites-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.favorite-item{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    background:#fafafa;
+
+    transition:.2s;
+}
+
+.favorite-item:hover{
+    background:#f3f3f3;
+}
+
+.favorite-item img{
+    width:90px;
+    height:55px;
+
+    object-fit:cover;
+
+    border-radius:8px;
+}
+
+.info{
+    flex:1;
+}
+
+.info h5{
+    margin:0;
+    font-size:14px;
+}
+
+.info small{
+    color:#666;
+}
+
+.delete-btn{
+
+    border:none;
+    background:none;
+
+    cursor:pointer;
+}
+
+.delete-btn mat-icon{
+    color:#e53935;
+}

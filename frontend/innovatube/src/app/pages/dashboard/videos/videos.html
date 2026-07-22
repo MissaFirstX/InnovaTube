@@ -1,0 +1,18 @@
+<div class="search-box">
+  <input
+    type="text"
+    placeholder="Buscar videos..."
+    #search
+    (keyup.enter)="searchVideos(search.value)"
+  />
+
+  <button (click)="searchVideos(search.value)">
+    <mat-icon>search</mat-icon>
+  </button>
+</div>
+
+<div class="videos-grid">
+  @for (video of videos; track video.id) {
+    <app-video-card [video]="video" (favorite)="addFavorite(video)"> </app-video-card>
+  }
+</div>

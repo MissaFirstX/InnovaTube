@@ -1,0 +1,35 @@
+<div class="video-card">
+
+  <div class="thumbnail-container">
+    <img
+    [src]="video.thumbnail"
+    [alt]="video.title"
+    class="thumbnail"
+    (click)="openVideo(video.id)"
+  />
+
+    <button
+      class="favorite-btn"
+      (click)="toggleFavorite()"
+    >
+      <mat-icon>
+        {{ isFavorite ? 'favorite' : 'favorite_border' }}
+      </mat-icon>
+    </button>
+  </div>
+
+  <div class="video-info">
+
+    <h3>{{ video.title }}</h3>
+
+    <p class="channel">
+      {{ video.channelTitle }}
+    </p>
+
+    <p class="date">
+      {{ video.publishedAt | date:'mediumDate' }}
+    </p>
+
+  </div>
+
+</div>

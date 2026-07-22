@@ -1,1 +1,24 @@
-<p>navbar works!</p>
+<mat-toolbar class="navbar">
+  <span class="logo">InnovaTube</span>
+
+  <span class="spacer"></span>
+
+  <button
+    mat-icon-button
+    class="mobile-favorites"
+    (click)="goToFavorites()"
+    aria-label="Ir a favoritos">
+    <mat-icon>favorite</mat-icon>
+  </button>
+
+  <span class="nav-username">
+    {{ profile?.firstName || 'Bienvenido' }}
+  </span>
+
+  <button
+    matButton="filled"
+    class="nav-button"
+    (click)="logout()">
+    Cerrar sesión
+  </button>
+</mat-toolbar>

@@ -1,1 +1,43 @@
-<p>favorites works!</p>
+<header>
+  <h3>❤️ Tus favoritos</h3>
+
+  <input
+    type="text"
+    placeholder="Buscar..."
+    [(ngModel)]="search"
+    (input)="filterFavorites()"
+  />
+</header>
+
+<div class="favorites-list">
+
+  @for (fav of filteredFavorites; track fav.id) {
+
+    <div class="favorite-item">
+
+      <img
+        [src]="fav.thumbnail"
+        [alt]="fav.title"
+      />
+
+      <div class="info">
+        <h5>{{ fav.title }}</h5>
+        <small>{{ fav.channelTitle }}</small>
+      </div>
+
+      <button
+        class="delete-btn"
+        (click)="removeFavorite(fav.id)"
+      >
+        <mat-icon>favorite</mat-icon>
+      </button>
+
+    </div>
+
+  } @empty {
+
+    <p>No tienes favoritos.</p>
+
+  }
+
+</div>
