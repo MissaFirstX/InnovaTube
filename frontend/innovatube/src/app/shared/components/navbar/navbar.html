@@ -7,18 +7,17 @@
     mat-icon-button
     class="mobile-favorites"
     (click)="goToFavorites()"
-    aria-label="Ir a favoritos">
+    aria-label="Ir a favoritos"
+  >
     <mat-icon>favorite</mat-icon>
   </button>
 
   <span class="nav-username">
-    {{ profile?.firstName || 'Bienvenido' }}
+    {{ profile()?.firstName || 'Bienvenido' }}
   </span>
 
-  <button
-    matButton="filled"
-    class="nav-button"
-    (click)="logout()">
-    Cerrar sesión
+  <button matButton="filled" class="nav-button" (click)="logout()">
+    <mat-icon class="mobile-only">logout</mat-icon>
+    <span class="desktop-only">Cerrar sesión</span>
   </button>
 </mat-toolbar>

@@ -2,17 +2,16 @@
   <input
     type="text"
     placeholder="Buscar videos..."
-    #search
-    (keyup.enter)="searchVideos(search.value)"
+    [ngModel]="searchTerm()"
+    (ngModelChange)="searchTerm.set($event)"
+    (keyup.enter)="searchVideos()"
   />
-
-  <button (click)="searchVideos(search.value)">
-    <mat-icon>search</mat-icon>
-  </button>
+  <button (click)="searchVideos()"><mat-icon>search</mat-icon></button>
+  <button (click)="clearSearch()"><mat-icon>close</mat-icon></button>
 </div>
 
 <div class="videos-grid">
-  @for (video of videos; track video.id) {
+  @for (video of videos(); track video.id) {
     <app-video-card [video]="video" (favorite)="addFavorite(video)"> </app-video-card>
   }
 </div>

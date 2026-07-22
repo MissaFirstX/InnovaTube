@@ -4,40 +4,26 @@
   <input
     type="text"
     placeholder="Buscar..."
-    [(ngModel)]="search"
-    (input)="filterFavorites()"
+    [ngModel]="search()"
+    (ngModelChange)="search.set($event)"
   />
 </header>
 
 <div class="favorites-list">
-
-  @for (fav of filteredFavorites; track fav.id) {
-
+  @for (fav of filteredFavorites(); track fav.id) {
     <div class="favorite-item">
-
-      <img
-        [src]="fav.thumbnail"
-        [alt]="fav.title"
-      />
+      <img [src]="fav.thumbnail" [alt]="fav.title" />
 
       <div class="info">
         <h5>{{ fav.title }}</h5>
         <small>{{ fav.channelTitle }}</small>
       </div>
 
-      <button
-        class="delete-btn"
-        (click)="removeFavorite(fav.id)"
-      >
+      <button class="delete-btn" (click)="removeFavorite(fav.id)">
         <mat-icon>favorite</mat-icon>
       </button>
-
     </div>
-
   } @empty {
-
     <p>No tienes favoritos.</p>
-
   }
-
 </div>

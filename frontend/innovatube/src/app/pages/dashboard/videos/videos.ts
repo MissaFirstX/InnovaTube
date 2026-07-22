@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Video } from '../../../core/interfaces/videos.interface';
 import { VideosService } from '../../../core/services/videos.service';
 import { MatInputModule } from '@angular/material/input';
@@ -9,30 +9,36 @@ import { VideoCard } from '../../../shared/components/video-card/video-card';
 import { FavoritesService } from '../../../core/services/favorites.service';
 import { FavoritesRequest } from '../../../core/interfaces/favorites.interface';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-videos',
   imports: [FormsModule, MatFormFieldModule, MatInputModule, MatIconModule, VideoCard],
   templateUrl: './videos.html',
   styleUrl: './videos.css',
 })
-export class Videos{
+export class Videos {
   private readonly videoService = inject(VideosService);
   private readonly favoritesService = inject(FavoritesService);
 
-  videos: Video[] = [];
+  searchTerm = signal('');
+  videos = signal<Video[]>([]);
 
-
-  searchVideos(searchTerm: string): void {
-    const query = searchTerm.trim();
-
+  searchVideos(): void {
+    const query = this.searchTerm().trim();
     if (!query) return;
 
     this.videoService.searchVideos(query).subscribe({
-      next: ({ data }) => {
-        this.videos = data.videos;
+      next: ({ data }) => this.videos.set(data.videos),
+      error: () => {
+        /* ... */
       },
-      error: console.error,
     });
+  }
+
+  clearSearch(): void {
+    this.searchTerm.set('');
+    this.videos.set([]);
   }
 
   addFavorite(video: Video) {
@@ -47,11 +53,22 @@ export class Videos{
 
     this.favoritesService.addToFavorites(favorite).subscribe({
       next: () => {
-        console.log('Favorito agregado');
+        Swal.fire({
+          icon: 'success',
+          title: 'Agregado a favoritos',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       },
-      error: console.error,
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo agregar a favoritos.',
+        });
+      },
     });
   }
 }
-
-

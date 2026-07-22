@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../core/services/auth.service';
 import { ProfileResponse } from '../../../core/interfaces/auth.interface';
 import { CommonModule } from '@angular/common';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
@@ -19,21 +21,39 @@ export class Navbar implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  profile?: ProfileResponse['data'];
+  profile = signal<ProfileResponse['data'] | undefined>(undefined);
 
   ngOnInit(): void {
-    this.profile = this.authService.getCachedProfile() ?? undefined;
+    this.profile.set(this.authService.getCachedProfile() ?? undefined);
 
     this.authService.getProfile().subscribe({
       next: (response) => {
         if (response.data) {
-          this.profile = response.data;
+          this.profile.set(response.data);
         }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar el perfil',
+          text: 'No pudimos obtener tus datos, intenta recargar la página.',
+        });
       },
     });
   }
 
-  logout() {
+  async logout() {
+    const result = await Swal.fire({
+      icon: 'question',
+      title: '¿Cerrar sesión?',
+      text: 'Tendrás que volver a iniciar sesión para continuar.',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar',
+    });
+
+    if (!result.isConfirmed) return;
+
     this.authService.logout();
     this.router.navigate(['/login']);
   }

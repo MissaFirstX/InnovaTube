@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../core/services/auth.service';
+import Swal from 'sweetalert2';
 
 declare global {
   interface Window {
@@ -66,8 +67,6 @@ export class Register implements AfterViewInit {
   );
 
   isSubmitting = false;
-  message: string | null = null;
-  errorMessage: string | null = null;
 
   ngAfterViewInit(): void {
     this.loadRecaptcha();
@@ -80,28 +79,42 @@ export class Register implements AfterViewInit {
     }
 
     if (!this.recaptchaToken) {
-      this.errorMessage = 'Confirma el reCAPTCHA para continuar.';
+      Swal.fire({
+        icon: 'warning',
+        title: 'Falta el reCAPTCHA',
+        text: 'Confirma el reCAPTCHA para continuar.',
+      });
       return;
     }
 
     this.isSubmitting = true;
-    this.message = null;
-    this.errorMessage = null;
 
     const { confirmPassword, ...payload } = this.registerForm.value;
 
     this.authService.register(payload).subscribe({
       next: () => {
         this.isSubmitting = false;
-        this.message = 'Registro creado correctamente. Redirigiendo al inicio de sesión...';
         this.registerForm.reset();
         this.resetRecaptcha();
-        this.router.navigate(['/login']);
+
+        Swal.fire({
+          icon: 'success',
+          title: '¡Cuenta creada!',
+          text: 'Registro creado correctamente. Redirigiendo al inicio de sesión...',
+          timer: 2000,
+          showConfirmButton: false,
+        }).then(() => {
+          this.router.navigate(['/login']);
+        });
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.errorMessage =
-          error?.error?.message || 'No se pudo completar el registro. Inténtalo de nuevo.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error en el registro',
+          text: error?.error?.message || 'No se pudo completar el registro. Inténtalo de nuevo.',
+        });
       },
     });
   }
@@ -158,7 +171,12 @@ export class Register implements AfterViewInit {
       this.ngZone.run(() => {
         this.recaptchaReady = false;
         this.hasRecaptchaWidget = false;
-        this.recaptchaErrorMessage = 'No se pudo cargar el script de Google reCAPTCHA.';
+      });
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de reCAPTCHA',
+        text: 'No se pudo cargar el script de Google reCAPTCHA.',
       });
     };
     document.head.appendChild(script);
@@ -174,8 +192,12 @@ export class Register implements AfterViewInit {
         this.ngZone.run(() => {
           this.recaptchaReady = false;
           this.hasRecaptchaWidget = false;
-          this.recaptchaErrorMessage =
-            'No se pudo cargar el widget de Google. Revisa la conexión o la clave de reCAPTCHA.';
+        });
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de reCAPTCHA',
+          text: 'No se pudo cargar el widget de Google. Revisa la conexión o la clave de reCAPTCHA.',
         });
         return;
       }
@@ -203,13 +225,17 @@ export class Register implements AfterViewInit {
       this.ngZone.run(() => {
         this.recaptchaReady = true;
         this.hasRecaptchaWidget = true;
-        this.recaptchaErrorMessage = null;
       });
     } catch (error) {
       this.ngZone.run(() => {
         this.recaptchaReady = false;
         this.hasRecaptchaWidget = false;
-        this.recaptchaErrorMessage = 'El widget de reCAPTCHA no pudo inicializarse.';
+      });
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de reCAPTCHA',
+        text: 'El widget de reCAPTCHA no pudo inicializarse.',
       });
       console.error(error);
     }
@@ -222,6 +248,11 @@ export class Register implements AfterViewInit {
     this.recaptchaToken = null;
   }
 
+  retryRecaptcha(): void {
+    this.recaptchaWidgetId = null;
+    this.recaptchaErrorMessage = null;
+    this.loadRecaptcha();
+  }
 
   private passwordsMatchValidator(group: AbstractControl): ValidationErrors | null {
     const password = group.get('password')?.value;
