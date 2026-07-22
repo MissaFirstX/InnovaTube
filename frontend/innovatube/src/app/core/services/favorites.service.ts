@@ -5,10 +5,11 @@ import {
   FavoritesResponse,
   ListFavoritesResponse,
 } from '../interfaces/favorites.interface';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FavoritesService {
-  private api = 'http://localhost:3000/api/favorites';
+  private api = `${environment.apiUrl}/favorites`;
 
   constructor(private httpClient: HttpClient) {}
 

@@ -8,12 +8,13 @@ import {
   LoginResponse,
   ProfileResponse,
 } from '../interfaces/auth.interface';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private api = 'http://localhost:3000/api/auth';
+  private api = `${environment.apiUrl}/auth`;
   private readonly profileStorageKey = 'profile';
 
   constructor(private http: HttpClient) {}
@@ -32,7 +33,7 @@ export class AuthService {
         if (response.data) {
           this.saveProfile(response.data);
         }
-      })
+      }),
     );
   }
 
