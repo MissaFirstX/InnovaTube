@@ -208,7 +208,7 @@ export class Register implements AfterViewInit {
 
       this.recaptchaContainer.nativeElement.innerHTML = '';
       this.recaptchaWidgetId = window.grecaptcha.render(this.recaptchaContainer.nativeElement, {
-        sitekey: '6Leckl4tAAAAAI-RUEZ-cp_-pAHklCcMoVserkDl',
+        sitekey: '6Lf86F8tAAAAAO4anlz1490vzukKLhmDxzBil72x',
         callback: (token: string) => {
           this.ngZone.run(() => {
             this.recaptchaToken = token;
