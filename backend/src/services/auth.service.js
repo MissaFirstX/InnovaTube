@@ -5,10 +5,12 @@ import prisma from "../config/prisma.js";
 export const register = async (data) => {
   const { firstName, lastName, username, email, password } = data;
 
+  const lowerUsername = String(username).toLocaleLowerCase();
+
   // Verificar username
   const usernameExists = await prisma.user.findUnique({
     where: {
-      username,
+      username: lowerUsername,
     },
   });
 
@@ -35,7 +37,7 @@ export const register = async (data) => {
     data: {
       firstName,
       lastName,
-      username,
+      username: lowerUsername,
       email,
       password: hashedPassword,
     },
@@ -100,7 +102,7 @@ export const getProfile = async (userId) => {
     where: {
       id: userId,
     },
-  }); 
+  });
 
   if (!user) {
     throw new Error("User not found");
