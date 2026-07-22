@@ -7,7 +7,9 @@ export const getUserFavorites = async (userId) => {
   });
 };
 
-export const addFavorite = async (userId, videoId) => {
+export const addFavorite = async (userId, body) => {
+  const { videoId, title, description, thumbnail, channelTitle, publishedAt } = body;
+
   const existing = await prisma.favorite.findUnique({
     where: {
       userId_videoId: {
@@ -25,6 +27,11 @@ export const addFavorite = async (userId, videoId) => {
     data: {
       userId,
       videoId,
+      title,
+      description,
+      thumbnail,
+      channelTitle,
+      publishedAt: new Date(publishedAt),
     },
   });
 };

@@ -12,8 +12,7 @@ export const listFavorites = async (req, res) => {
 
 export const createFavorite = async (req, res) => {
   try {
-    const { videoId } = req.body;
-    const favorite = await favoritesService.addFavorite(req.user.id, videoId.trim());
+    const favorite = await favoritesService.addFavorite(req.user.id, req.body);
     return successResponse(res, "Favorite added successfully", favorite, 201);
   } catch (error) {
     return errorResponse(res, error.message, 400);
@@ -23,9 +22,13 @@ export const createFavorite = async (req, res) => {
 export const deleteFavorite = async (req, res) => {
   try {
     const favoriteId = Number(req.params.id);
-    const deleted = await favoritesService.removeFavorite(req.user.id, favoriteId);
+    const deleted = await favoritesService.removeFavorite(
+      req.user.id,
+      favoriteId,
+    );
     return successResponse(res, "Favorite removed successfully", deleted);
   } catch (error) {
     return errorResponse(res, error.message, 400);
   }
 };
+
